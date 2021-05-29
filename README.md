@@ -1,5 +1,5 @@
 <h1 align="center">
-DT Money
+- DT Money -
 </h1>
 
 <p align="center">Projeto criado para revisar e aprimorar conhecimentos sobre react , context api , javascript 
