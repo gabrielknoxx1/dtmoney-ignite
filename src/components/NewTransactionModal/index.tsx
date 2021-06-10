@@ -3,8 +3,9 @@ import Modal from 'react-modal'
 import closeImg from '../../assets/close.svg'
 import incomeImg from '../../assets/income.svg'
 import outcomeImg from '../../assets/outcome.svg'
-import { useTransactions } from '../../hooks/useTransactions'
-import { api }  from '../../services/api'
+import { observer } from "mobx-react-lite"
+import Store from "../../stores/stores"
+
 
 import { Container, TransactionTypeContainer, RadioBox } from './styles';
 
@@ -14,22 +15,33 @@ interface NewTransactionModalProps {
 }
 
 function NewTransactionModal({ isOpen,onRequestClose }: NewTransactionModalProps) {
-  const {createTransaction} = useTransactions()
   const [title , setTitle] = useState('');
   const [amount , setAmount] = useState(0);
   const [category , setCategory] = useState('');
   const [type , setType] = useState('deposit');
 
 
+  const store = useContext(Store)
+  const {transactions} = store
+
  async function handleCreateNewTransaction(event: FormEvent) {
     event.preventDefault();
 
-    await createTransaction({
-      title,
-      amount,
-      category,
-      type
-    })
+
+    const newTransaction = 
+      {
+        title,
+        amount,
+        category,
+        type,
+        id: Math.random(),
+        createdAt: String(new Date('2021-02-12 15:00:00'))
+      }
+        
+     transactions.push(newTransaction)
+
+
+
 
     setTitle('')
     setAmount(0)
@@ -106,4 +118,4 @@ function NewTransactionModal({ isOpen,onRequestClose }: NewTransactionModalProps
   );
 };
 
-export default NewTransactionModal;
+export default observer(NewTransactionModal);

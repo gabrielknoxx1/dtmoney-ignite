@@ -1,16 +1,24 @@
-import { useTransactions } from '../../hooks/useTransactions';
 import { Container } from './styles';
-
+import Store from "../../stores/stores"
+import { observer } from "mobx-react-lite"
+import { useContext, useEffect } from 'react';
+import { api } from '../../services/api';
 
 
 
 function TransactionsTable() {
+  const store = useContext(Store)
+  
+  const {transactions, getTransactions} = store
 
-  const {transactions} = useTransactions()
-
+  useEffect(() => {
+    api.get('/transactions').then(response => getTransactions(response.data)).catch(error => console.log(error))
+  },[getTransactions])  
+ 
+  
 
   return (
-    <Container>
+    <Container >
       <table>
         <thead>
           <th>Título</th>
@@ -41,4 +49,4 @@ function TransactionsTable() {
   );
 };
 
-export default TransactionsTable;
+export default observer(TransactionsTable);

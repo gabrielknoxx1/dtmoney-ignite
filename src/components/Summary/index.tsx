@@ -1,14 +1,18 @@
+import {useContext} from 'react'
 import incomesImg from '../../assets/income.svg';
 import outcomesImg from '../../assets/outcome.svg';
 import totalImg from '../../assets/total.svg';
-import { useTransactions } from '../../hooks/useTransactions';
+import { observer } from "mobx-react-lite"
 import { Container } from './styles';
+import Store from "../../stores/stores"
 
 
 
 function Summary() {
-  const { transactions } = useTransactions()
 
+  const store = useContext(Store)
+  const {transactions} = store
+  
   const summary = transactions.reduce((acc, transaction) => {
     if(transaction.type === 'deposit') {
       acc.deposits += transaction.amount;
@@ -63,4 +67,4 @@ function Summary() {
   );
 };
 
-export default Summary;
+export default observer(Summary);
