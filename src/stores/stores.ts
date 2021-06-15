@@ -1,5 +1,5 @@
-import { makeObservable, observable, action, configure} from "mobx"
-import { createContext } from "react"
+import { makeObservable, observable, action, configure } from "mobx";
+import { createContext } from "react";
 
 export interface Transaction {
   id: number;
@@ -10,54 +10,57 @@ export interface Transaction {
   createdAt: string;
 }
 
-type TransactionInput = Omit<Transaction, 'id'| 'createdAt'> 
-
+type TransactionInput = Omit<Transaction, "id" | "createdAt">;
 
 class TransactionStore {
   transactions: Transaction[] = [
-    // {
-    //   id: 1,
-    //   title: 'Freelance de website',
-    //   type: 'deposit',
-    //   category: 'Dev',
-    //   amount: 6000,
-    //   createdAt: String(new Date('2021-02-12 09:00:00'))
-    // },
-    // {
-    //   id: 2,
-    //   title: 'Jogo',
-    //   type: 'withdraw',
-    //   category: 'Games',
-    //   amount: 350,
-    //   createdAt: String(new Date('2021-02-12 15:00:00'))
-    // },
-  ]
-  
+    {
+      id: 1,
+      title: "Freelance de website",
+      type: "deposit",
+      category: "Dev",
+      amount: 6000,
+      createdAt: String(new Date("2021-02-12 09:00:00")),
+    },
+    {
+      id: 2,
+      title: "Jogo",
+      type: "withdraw",
+      category: "Games",
+      amount: 350,
+      createdAt: String(new Date("2021-02-12 15:00:00")),
+    },
+    {
+      id: 3,
+      title: "Comida",
+      type: "withdraw",
+      category: "Food",
+      amount: 250,
+      createdAt: String(new Date("2021-02-12 15:00:00")),
+    },
+  ];
+
   constructor() {
     makeObservable(this, {
       transactions: observable,
       getTransactions: action,
-      createTransaction: action
-    })
-   
+      createTransaction: action,
+    });
   }
 
-  
-  getTransactions (transaction: Transaction[]) {
-    return this.transactions.push(...transaction) 
+  getTransactions(transaction: Transaction[]) {
+    return this.transactions.push(...transaction);
   }
-  
-   createTransaction (transactionInput: TransactionInput) {
-      const newTransaction = {
-       ...transactionInput,
-       createdAt: String(new Date('2021-02-12 15:00:00')),
-       id: Math.random()
-      }
 
-     return this.transactions.concat(newTransaction)  
+  createTransaction(transactionInput: TransactionInput) {
+    const newTransaction = {
+      ...transactionInput,
+      createdAt: String(new Date("2021-02-12 15:00:00")),
+      id: Math.random(),
+    };
 
+    return this.transactions.concat(newTransaction);
   }
- 
 }
 
-export default createContext(new TransactionStore())
+export default createContext(new TransactionStore());

@@ -1,21 +1,14 @@
 import { Container } from './styles';
 import Store from "../../stores/stores"
 import { observer } from "mobx-react-lite"
-import { useContext, useEffect } from 'react';
-import { api } from '../../services/api';
+import { useContext} from 'react';
 
 
 
 function TransactionsTable() {
   const store = useContext(Store)
-  
-  const {transactions, getTransactions} = store
 
-  useEffect(() => {
-    api.get('/transactions').then(response => getTransactions(response.data)).catch(error => console.log(error))
-  },[getTransactions])  
- 
-  
+  const {transactions} = store
 
   return (
     <Container >
